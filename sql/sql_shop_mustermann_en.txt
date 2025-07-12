@@ -1,0 +1,64 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Datenbank: `mustermann`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `shop`
+--
+
+CREATE TABLE `shop` (
+  `id` int(11) NOT NULL,
+  `productname` varchar(50) NOT NULL,
+  `price` double NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `offer` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `shop`
+--
+
+INSERT INTO `shop` (`id`, `productname`, `price`, `description`, `offer`) VALUES
+(1, 'Microsoft Windows 11 Pro', 199.9, 'Windows 11 Pro ist das funktionsreichste Windows mit der professionellen Power und Leistung, die Sie benötigen. Verleihen Sie Ihrem PC professionelle Leistung. Nutzen Sie professionelle Software, mehrere Betriebssysteme und virtuelle Maschinen.', 1),
+(2, 'Microsoft Windows 11 Home', 99.9, 'Windows 11 Home wird Ihnen so vertraut vorkommen, dass Sie sich wie ein Experte fühlen. Alle Ihre angehefteten Apps und Favoriten werden übernommen und Sie können da weiter machen, wo Sie aufgehört haben. ', 0),
+(3, 'WISO MeinBüro 365', 79.8, 'Mit WISO Mein Büro legen Sie Kunden und Kontakte übersichtlich im Programm an, schreiben Angebote und Rechnungen und verbuchen Ihre Einnahmen und Ausgaben. Beim Einsatz der Software benötigen Sie weder spezielle Fachkenntnisse noch jahrelange Erfahrung.', 0),
+(4, 'McAfee Total Protection ', 29.85, 'McAfee Total Protection bietet Premium-Schutz für Ihre Daten, Identität und Privatsphäre auf Ihren PCs, Macs, Smartphones und Tablets.', 0),
+(5, 'Lexware Kassenbuch', 139.2, 'Nie mehr umständlich Daten eingeben: Die Lexware Kassenbuch Software macht Finanzbuchhaltung einfach und effizient - und das für bis zu fünf Firmen.', 0),
+(6, 'Microsoft Office 365 Single', 49.6, 'Microsoft 365 Single ist das ideale Abonnement für die Nutzung durch eine Person und bietet alles, was Sie zur Organisation Ihres Lebens benötigen. Zu Hause oder unterwegs sind Sie mit den aktuellsten Versionen der bewährten Office-Apps wie Word, Excel', 0);
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `shop`
+--
+ALTER TABLE `shop`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `shop`
+--
+ALTER TABLE `shop`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
