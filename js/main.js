@@ -1,26 +1,41 @@
-  // Registrierung
-  document.getElementById('registerForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('registerSuccess').classList.remove('d-none');
-    // Optional: Wechsel zum Login-Tab nach Registrierung
-    setTimeout(function() {
-      var loginTab = document.getElementById('login-tab');
-      var tab = new bootstrap.Tab(loginTab);
-      tab.show();
-    }, 3000);
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab");
+  const error = params.get("error");
+  const success = params.get("success");
 
-  // Login
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var email = document.getElementById('loginEmail').value;
-    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    var errorDiv = document.getElementById('loginError');
-    if (emailPattern.test(email)) {
-      errorDiv.classList.add('d-none');
-      // Redirect to another page (URL left empty as requested)
-      window.location.href = '';
+  // Switch tab if needed
+  if (tab === "login") {
+    document.getElementById("login-tab").classList.add("active");
+    document.getElementById("register-tab").classList.remove("active");
+    document.getElementById("login").classList.add("show", "active");
+    document.getElementById("register").classList.remove("show", "active");
+  } else {
+    document.getElementById("register-tab").classList.add("active");
+    document.getElementById("login-tab").classList.remove("active");
+    document.getElementById("register").classList.add("show", "active");
+    document.getElementById("login").classList.remove("show", "active");
+  }
+
+  // Show error message
+  if (error) {
+    const alert = document.createElement("div");
+    alert.className = "alert alert-danger mt-3";
+    alert.role = "alert";
+    alert.innerText = decodeURIComponent(error);
+    if (tab === "login") {
+      document.getElementById("loginForm").before(alert);
     } else {
-      errorDiv.classList.remove('d-none');
+      document.getElementById("registerForm").before(alert);
     }
-  });
+  }
+
+  // Show success message
+  if (success) {
+    const alert = document.createElement("div");
+    alert.className = "alert alert-success mt-3";
+    alert.role = "alert";
+    alert.innerText = decodeURIComponent(success);
+    document.getElementById("loginForm").before(alert);
+  }
+});

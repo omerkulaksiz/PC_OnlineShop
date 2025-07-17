@@ -1,148 +1,156 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mustermann IT-Systeme</title>
-    <link href="bootstrap5.3/css/bootstrap.min.css" rel="stylesheet">
-  </head>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mustermann IT-Systeme</title>
+  <link href="bootstrap5.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
 <body>
-    
-<main>
-  <div class="container py-4">
-    
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <span class="navbar-brand h1">Mustermann GmbH</span>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="index.html">Startseite</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">IT-Schulungen</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Online-Shop</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Service
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Hardware-Support</a></li>
-            <li><a class="dropdown-item" href="#">Software-Support</li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Impressum</a></li>
-            <li><a class="dropdown-item" href="#">Datenschutz</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Suche" aria-label="Search">
-        <button class="btn btn-outline-dark" type="submit"><img src="bootstrap5.3/icons/search.svg"></button>
-      </form>
-    </div>
-  </div>
-</nav>
 
-<div class="container mt-4 mb-4 border">
-  <h1 class="display-5 fw-bold">Registrieren oder Anmelden</h1>
-  <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="true">Registrieren</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="false">Anmelden</button>
-    </li>
-  </ul>
-  <div class="tab-content" id="authTabContent">
-    <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
-      <form id="registerForm">
-        <div class="mb-3">
-          <label class="form-label d-block">Anrede <span class="text-danger">*</span></label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="anrede" id="anredeHerr" value="Herr" required>
-            <label class="form-check-label" for="anredeHerr">Herr</label>
+  <main>
+    <div class="container py-4">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <span class="navbar-brand h1">Mustermann GmbH</span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="index.html">Startseite</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">IT-Schulungen</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Online-Shop</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Service
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Hardware-Support</a></li>
+                  <li><a class="dropdown-item" href="#">Software-Support</li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">Impressum</a></li>
+                  <li><a class="dropdown-item" href="#">Datenschutz</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Suche" aria-label="Search">
+              <button class="btn btn-outline-dark" type="submit"><img src="bootstrap5.3/icons/search.svg"></button>
+            </form>
           </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="anrede" id="anredeFrau" value="Frau" required>
-            <label class="form-check-label" for="anredeFrau">Frau</label>
+        </div>
+      </nav>
+
+      <div class="container mt-4 mb-4 border">
+        <h1 class="display-5 fw-bold">Registrieren oder Anmelden</h1>
+        <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="register-tab" data-bs-toggle="tab" data-bs-target="#register"
+              type="button" role="tab" aria-controls="register" aria-selected="true">Neukunden-Registrierung</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button"
+              role="tab" aria-controls="login" aria-selected="false">Anmelden</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="authTabContent">
+          <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
+            <form id="registerForm" method="POST" action="user.php">
+              <div class="mb-3">
+                <label class="form-label d-block">Anrede <span class="text-danger">*</span></label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="anrede" id="anredeHerr" value="Herr" required>
+                  <label class="form-check-label" for="anredeHerr">Herr</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="anrede" id="anredeFrau" value="Frau" required>
+                  <label class="form-check-label" for="anredeFrau">Frau</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="anrede" id="anredeDivers" value="Divers" required>
+                  <label class="form-check-label" for="anredeDivers">Divers</label>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="vorname" class="form-label">Vorname <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="vorname" name="vorname" required>
+              </div>
+              <div class="mb-3">
+                <label for="nachname" class="form-label">Nachname <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nachname" name="nachname" required>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">E-Mail-Adresse <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="firmenname" class="form-label">Firmenname (optional)</label>
+                <input type="text" class="form-control" id="firmenname" name="firmenname">
+              </div>
+              <div class="mb-3">
+                <label for="strasse" class="form-label">Straße und Hausnummer <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="strasse" name="strasse" required>
+              </div>
+              <div class="mb-3">
+                <label for="plz" class="form-label">PLZ <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="plz" name="plz" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerPassword" class="form-label">Passwort <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="registerPassword" name="registerPassword" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerPasswordRepeat" class="form-label">Passwort wiederholen <span
+                    class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="registerPasswordRepeat" name="registerPasswordRepeat"
+                  required>
+              </div>
+              <button type="submit" class="btn btn-primary mb-3">Registrieren</button>
+            </form>
+            <div id="registerSuccess" class="alert alert-success d-none mt-3" role="alert">
+              Die Daten wurden in der Datenbank gespeichert. Es kann nun das Login genutzt werden.
+            </div>
           </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="anrede" id="anredeDivers" value="Divers" required>
-            <label class="form-check-label" for="anredeDivers">Divers</label>
+          <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab">
+            <form id="loginForm" method="POST" action="login.php">
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">E-Mail-Adresse <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="loginEmail" name="loginEmail" required>
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Passwort <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
+              </div>
+              <button type="submit" class="btn btn-success mb-3">Anmelden</button>
+            </form>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="vorname" class="form-label">Vorname <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="vorname" name="vorname" required>
-        </div>
-        <div class="mb-3">
-          <label for="nachname" class="form-label">Nachname <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="nachname" name="nachname" required>
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">E-Mail-Adresse <span class="text-danger">*</span></label>
-          <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-          <label for="firmenname" class="form-label">Firmenname (optional)</label>
-          <input type="text" class="form-control" id="firmenname" name="firmenname">
-        </div>
-        <div class="mb-3">
-          <label for="strasse" class="form-label">Straße und Hausnummer <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="strasse" name="strasse" required>
-        </div>
-        <div class="mb-3">
-          <label for="plz" class="form-label">PLZ <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="plz" name="plz" required>
-        </div>
-        <div class="mb-3">
-          <label for="registerPassword" class="form-label">Passwort <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="registerPassword" name="registerPassword" required>
-        </div>
-        <div class="mb-3">
-          <label for="registerPasswordRepeat" class="form-label">Passwort wiederholen <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="registerPasswordRepeat" name="registerPasswordRepeat" required>
-        </div>
-        <button type="submit" class="btn btn-primary mb-3">Registrieren</button>
-      </form>
-      <div id="registerSuccess" class="alert alert-success d-none mt-3" role="alert">
-        Die Daten wurden in der Datenbank gespeichert. Es kann nun das Login genutzt werden.
       </div>
+
+
+      <footer class="pt-3 mt-4 text-muted border-top">
+        &copy; 2021 Mustermann GmbH - eine Demoseite Übungen (Modul Web-Technologien)
+      </footer>
     </div>
-    <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab">
-      <form id="loginForm">
-        <div class="mb-3">
-          <label for="loginEmail" class="form-label">E-Mail-Adresse <span class="text-danger">*</span></label>
-          <input type="email" class="form-control" id="loginEmail" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginPassword" class="form-label">Passwort <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="loginPassword" required>
-        </div>
-        <div id="loginError" class="alert alert-danger d-none" role="alert">
-          Bitte geben Sie eine gültige E-Mail-Adresse ein.
-        </div>
-        <button type="submit" class="btn btn-success mb-3">Anmelden</button>
-      </form>
-    </div>
-  </div>
-</div>
+  </main>
 
+  <script src="bootstrap5.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
 
-    <footer class="pt-3 mt-4 text-muted border-top">
-      &copy; 2021 Mustermann GmbH - eine Demoseite Übungen (Modul Web-Technologien)
-    </footer>
-  </div>
-</main>
-
-   <script src="bootstrap5.3/js/bootstrap.bundle.min.js"></script>    
-   <script src="js/main.js"></script>
-  </body>
 </html>
