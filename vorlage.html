@@ -112,13 +112,14 @@
               </div>
               <div class="mb-3">
                 <label for="registerPassword" class="form-label">Passwort <span class="text-danger">*</span></label>
-                <input type="password" class="form-control" id="registerPassword" name="registerPassword" required>
+                <input type="password" class="form-control" minlength="6" id="registerPassword" name="registerPassword"
+                  required>
               </div>
               <div class="mb-3">
                 <label for="registerPasswordRepeat" class="form-label">Passwort wiederholen <span
                     class="text-danger">*</span></label>
-                <input type="password" class="form-control" id="registerPasswordRepeat" name="registerPasswordRepeat"
-                  required>
+                <input type="password" class="form-control" minlength="6" id="registerPasswordRepeat"
+                  name="registerPasswordRepeat" required>
               </div>
               <button type="submit" class="btn btn-primary mb-3">Registrieren</button>
             </form>
