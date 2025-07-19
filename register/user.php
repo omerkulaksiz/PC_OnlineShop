@@ -11,7 +11,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 // Check connection
 if ($conn->connect_error) {
-    header("Location: vorlage.html?tab=register&error=Verbindung+zur+Datenbank+fehlgeschlagen");
+    header("Location: register.html?tab=register&error=Verbindung+zur+Datenbank+fehlgeschlagen");
     exit;
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $passwortRepeatRaw = isset($_POST['registerPasswordRepeat']) ? $_POST['registerPasswordRepeat'] : '';
 
     if ($passwortRaw !== $passwortRepeatRaw) {
-        header("Location: vorlage.html?tab=register&error=Die+Passw%C3%B6rter+stimmen+nicht+%C3%BCberein");
+        header("Location: register.html?tab=register&error=Die+Passw%C3%B6rter+stimmen+nicht+%C3%BCberein");
         exit;
     }
 
@@ -40,13 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("ssssssss", $anrede, $vorname, $nachname, $email, $firmenname, $zusatz, $plz, $passwort);
 
     if ($stmt->execute()) {
-        header("Location: vorlage.html?tab=login&success=Registrierung+erfolgreich.+Sie+k%C3%B6nnen+sich+jetzt+anmelden.");
+        header("Location: register.html?tab=login&success=Registrierung+erfolgreich.+Sie+k%C3%B6nnen+sich+jetzt+anmelden.");
     } else {
-        header("Location: vorlage.html?tab=register&error=Fehler+beim+Speichern%3A+" . urlencode($stmt->error));
+        header("Location: register.html?tab=register&error=Fehler+beim+Speichern%3A+" . urlencode($stmt->error));
     }
     $stmt->close();
 } else {
-    header("Location: vorlage.html?tab=register&error=Ung%C3%BCltige+Anfrage");
+    header("Location: register.html?tab=register&error=Ung%C3%BCltige+Anfrage");
 }
 
 $conn->close();

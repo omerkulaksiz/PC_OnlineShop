@@ -1,3 +1,46 @@
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../register/register.html?tab=login&error=Bitte+melden+Sie+sich+an");
+    exit;
+}
+
+// Database connection
+$servername = "127.0.0.1";
+$username = "root";
+$password = "3112";
+$database = "webtech";
+
+$conn = new mysqli($servername, $username, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch AMD CPUs
+$amdQuery = "SELECT cpu_bz, cpu_preis, cpu_mram FROM cpu WHERE cpu_hs = 'AMD' ORDER BY cpu_preis";
+$amdResult = $conn->query($amdQuery);
+
+// Fetch Intel CPUs
+$intelQuery = "SELECT cpu_bz, cpu_preis, cpu_mram FROM cpu WHERE cpu_hs = 'Intel' ORDER BY cpu_preis";
+$intelResult = $conn->query($intelQuery);
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['cpu_model'])) {
+        $_SESSION['cpu'] = [
+            'model' => $_POST['cpu_model'],
+            'preis' => $_POST['cpu_preis'],
+            'max_ram' => $_POST['cpu_mram']
+        ];
+        header('Location: ram.php');
+        exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -72,33 +115,22 @@
                 <tr>
                     <th>CPU</th>
                     <th>Preis</th>
-                                        <th>max Ram</th>
-
+                    <th>max Ram</th>
                     <th>Auswählen</th>
                 </tr>
             </thead>
-            <tbody> 
+            <tbody>
+                <?php while($row = $amdResult->fetch_assoc()): ?>
                 <tr>
-                    <td>AMD Ryzen 5 5600X</td>
-                    <td>200 €</td>
-                                        <td>32 GB</td>
-
-                    <td><input type="radio" name="cpu_model" value="AMD Ryzen 5 5600X"></td>
+                    <td><?php echo htmlspecialchars($row['cpu_bz']); ?></td>
+                    <td><?php echo htmlspecialchars($row['cpu_preis']); ?> €</td>
+                    <td><?php echo htmlspecialchars($row['cpu_mram']); ?> GB</td>
+                    <td>
+                        <input type="radio" name="cpu_model" value="<?php echo htmlspecialchars($row['cpu_bz']); ?>">
+                        <input type="hidden" name="cpu_preis" value="<?php echo htmlspecialchars($row['cpu_preis']); ?>">
+                    </td>
                 </tr>
-                <tr>
-                    <td>AMD Ryzen 7 5800X</td>
-                    <td>320 €</td>
-                                        <td>32 GB</td>
-
-                    <td><input type="radio" name="cpu_model" value="AMD Ryzen 7 5800X"></td>
-                </tr>
-                <tr>
-                    <td>AMD Ryzen 9 5900X</td>
-                    <td>450 €</td>
-                                        <td>32 GB</td>
-
-                    <td><input type="radio" name="cpu_model" value="AMD Ryzen 9 5900X"></td>
-                </tr>
+                <?php endwhile; ?>
             </tbody>
         </table>
     </div>
@@ -114,33 +146,22 @@
                 </tr>
             </thead>
             <tbody>
+                <?php while($row = $intelResult->fetch_assoc()): ?>
                 <tr>
-                    <td>Intel Core i5-12600K</td>
-                    <td>230 €</td>
-                                        <td>32 GB</td>
-
-                    <td><input type="radio" name="cpu_model" value="Intel Core i5-12600K"></td>
+                    <td><?php echo htmlspecialchars($row['cpu_bz']); ?></td>
+                    <td><?php echo htmlspecialchars($row['cpu_preis']); ?> €</td>
+                    <td><?php echo htmlspecialchars($row['cpu_mram']); ?> GB</td>
+                    <td>
+                        <input type="radio" name="cpu_model" value="<?php echo htmlspecialchars($row['cpu_bz']); ?>">
+                        <input type="hidden" name="cpu_preis" value="<?php echo htmlspecialchars($row['cpu_preis']); ?>">
+                    </td>
                 </tr>
-                <tr>
-                    <td>Intel Core i7-12700K</td>
-                    <td>350 €</td>
-                                        <td>32 GB</td>
-
-                    <td><input type="radio" name="cpu_model" value="Intel Core i7-12700K"></td>
-                </tr>
-                <tr>
-                    <td>Intel Core i9-12900K</td>
-                    <td>500 €</td>
-                    <td>32 GB</td>
-                    <td><input type="radio" name="cpu_model" value="Intel Core i9-12900K"></td>
-                    
-                </tr>
-
+                <?php endwhile; ?>
             </tbody>
         </table>
     </div>
-
-    <button type="submit" class="btn btn-success mb-3" style="display: none;" id="buybtn">Kaufen</button>
+    <a href="gehause.php" class="btn btn-secondary me-2">Zurück</a>
+    <button type="submit" class="btn btn-success mb-3" style="display: none;" id="buybtn">Weiter</button>
 </form>
 
 <script>
@@ -149,8 +170,6 @@ function showCPUs(brand) {
     document.getElementById('intel-cpus').style.display = (brand === 'intel') ? 'block' : 'none';
     const buyButton = document.getElementById('buybtn');
     buyButton.style.display = 'block';
-
-
 }
 
 
@@ -160,3 +179,7 @@ function showCPUs(brand) {
 <button class="btn btn-warning">Abbruch und zurück zur Startseite</button>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

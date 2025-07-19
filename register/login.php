@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $passwort = isset($_POST['loginPassword']) ? $_POST['loginPassword'] : '';
 
     if ($email === '' || $passwort === '') {
-        header("Location: vorlage.html?tab=login&error=Bitte+geben+Sie+E-Mail+und+Passwort+ein");
+        header("Location: register.html?tab=login&error=Bitte+geben+Sie+E-Mail+und+Passwort+ein");
         exit;
     }
 
@@ -28,14 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->fetch();
         if (password_verify($passwort, $hashedPassword)) {
             $_SESSION['user_id'] = $userId;
-            header("Location: vorlage.html?tab=login&success=Login+erfolgreich");
             $stmt->close();
             $conn->close();
+            header("Location: ../bestellung/gehause.php");
             exit;
         }
     }
     $stmt->close();
-    header("Location: vorlage.html?tab=login&error=Login+fehlgeschlagen");
+    header("Location: register.html?tab=login&error=Login+fehlgeschlagen");
     $conn->close();
     exit;
 }

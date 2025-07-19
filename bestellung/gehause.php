@@ -1,3 +1,22 @@
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../register/register.html?tab=login&error=Bitte+melden+Sie+sich+an");
+    exit;
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gehause'])) {
+    $_SESSION['gehause'] = [
+        'typ' => $_POST['gehause'],
+        'preis' => $_POST['preis']
+    ];
+    header('Location: cpu.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -69,7 +88,13 @@
                         <td><img src="/img/products/maxi.png" alt="Gehäuse 1" class="img-fluid" style="width: 160px; min-height:200px"></td>
                         <td>Maxi Tower</td>
                         <td>89,99 €</td>
-                        <td><button class="btn btn-primary">Auswählen</button></td>
+                        <td>
+                            <form method="POST">
+                                <input type="hidden" name="gehause" value="Maxi Tower">
+                                <input type="hidden" name="preis" value="89.99">
+                                <button type="submit" class="btn btn-primary">Auswählen</button>
+                            </form>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="4"><hr class="border border-secondary"></td>
@@ -78,7 +103,13 @@
                         <td><img src="/img/products/midi.png" alt="Gehäuse 2" class="img-fluid" style="width: 160px; min-height:200px"></td>
                         <td>Midi Tower</td>
                         <td>59,99 €</td>
-                        <td><button class="btn btn-primary">Auswählen</button></td>
+                        <td>
+                            <form method="POST">
+                                <input type="hidden" name="gehause" value="Midi Tower">
+                                <input type="hidden" name="preis" value="59.99">
+                                <button type="submit" class="btn btn-primary">Auswählen</button>
+                            </form>
+                        </td>
                     </tr>
                     <tr >
                         <td colspan="4"><hr class="border border-secondary"></td>
@@ -87,7 +118,13 @@
                         <td><img src="/img/products/desktop.png" alt="Gehäuse 3" class="img-fluid" style="width: 160px; min-height:200px"></td>
                         <td>Mini Tower</td>
                         <td>49,99 €</td>
-                        <td><button class="btn btn-primary">Auswählen</button></td>
+                        <td>
+                            <form method="POST">
+                                <input type="hidden" name="gehause" value="Mini Tower">
+                                <input type="hidden" name="preis" value="49.99">
+                                <button type="submit" class="btn btn-primary">Auswählen</button>
+                            </form>
+                        </td>
                     </tr>
                 </tbody>
 
