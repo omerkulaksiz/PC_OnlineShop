@@ -3,7 +3,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $servername = "127.0.0.1";
 $username = "root";
-$password = "3112";
+$password = "";
 $database = "webtech";
 
 // Create connection

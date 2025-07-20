@@ -1,6 +1,22 @@
 <?php
 session_start();
 
+// Zubehör-Auswahl speichern, wenn das Formular abgeschickt wurde
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_items']) && isset($_POST['item_names'])) {
+    $_SESSION['zubehor'] = [];
+    foreach ($_POST['selected_items'] as $id => $preis) {
+        // Validate that the name exists for the given id
+        $name = isset($_POST['item_names'][$id]) ? $_POST['item_names'][$id] : '';
+        $_SESSION['zubehor'][] = [
+            'id'    => $id,
+            'name'  => $name,
+            'preis' => (float)$preis
+        ];
+    }
+    header("Location: warenkorb.php");
+    exit;
+}
+
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../register/register.html?tab=login&error=Bitte+melden+Sie+sich+an");
@@ -10,7 +26,7 @@ if (!isset($_SESSION['user_id'])) {
 // Database connection
 $servername = "127.0.0.1";
 $username = "root";
-$password = "3112";
+$password = "";
 $database = "webtech";
 
 $conn = new mysqli($servername, $username, $password, $database);
@@ -19,15 +35,21 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch accessories from database
+// Fetch accessories from database using prepared statement
 $query = "SELECT z_id, z_name, z_bs, z_kategorie, z_preis, z_bild FROM zubehor ORDER BY z_kategorie, z_name";
-$result = $conn->query($query);
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Group items by category
 $categories = [];
 while ($row = $result->fetch_assoc()) {
     $categories[$row['z_kategorie']][] = $row;
 }
+
+// Don't forget to close the statement
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +109,7 @@ while ($row = $result->fetch_assoc()) {
 
             <h3>Schritt 5 von 5: Zubehör</h3>
             <div class="container mt-4 mb-4 border p-3">
-                <form method="post" action="warenkorb.php">
+                <form method="post" action="zubehor.php">
                     <?php foreach ($categories as $category => $items): ?>
                         <h4 class="mt-4 mb-3"><?php echo htmlspecialchars($category); ?></h4>
                         <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
@@ -124,7 +146,7 @@ while ($row = $result->fetch_assoc()) {
 
                     <div class="mt-4">
                         <button type="submit" class="btn btn-success">Zum Warenkorb</button>
-                        <a href="index.html" class="btn btn-warning ms-2">Abbruch und zurück zur Startseite</a>
+                        <a href="/index.html" class="btn btn-warning ms-2">Abbruch und zurück zur Startseite</a>
                     </div>
                 </form>
             </div>
@@ -134,7 +156,3 @@ while ($row = $result->fetch_assoc()) {
     <script src="/bootstrap5.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

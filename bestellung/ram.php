@@ -1,18 +1,32 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../register/register.html?tab=login&error=Bitte+melden+Sie+sich+an");
+// Debug output at the very start
+error_log("RAM Page - Session CPU data: " . print_r($_SESSION['cpu'] ?? 'not set', true));
+
+// Check if user is logged in and CPU is selected with max_ram
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['cpu']['max_ram'])) {
+    header("Location: ../register/register.html?tab=login&error=Bitte+wählen+Sie+zuerst+eine+CPU");
     exit;
 }
 
-// Get CPU max RAM from previous step (assuming it's stored in session)
-$maxRam = isset($_SESSION['selected_cpu_max_ram']) ? $_SESSION['selected_cpu_max_ram'] : 128; // default to 128 if not set
+// Get max RAM directly from CPU session data and ensure it's an integer
+$maxRam = (int)$_SESSION['cpu']['max_ram'];
+
+// Debug output
+error_log("RAM Page - Max RAM value: " . $maxRam);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $selectedRam = (int)$_POST['ramSize'];
+    
+    // Validate RAM selection
+    if ($selectedRam < 4 || $selectedRam > $maxRam || $selectedRam % 4 !== 0) {
+        header("Location: ram.php?error=Ungültige+RAM-Auswahl");
+        exit;
+    }
+
     $_SESSION['ram'] = [
-        'size' => $_POST['ramSize'],
+        'size' => $selectedRam,
         'preis' => $_POST['ramPrice']
     ];
     header('Location: zubehor.php');
@@ -78,38 +92,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container py-4">
         <h3>Schritt 4 von 5: RAM</h3>
         <div class="container mt-4 mb-4 border">
-            <form method="post" action="">
-                <input type="hidden" name="ramPrice" id="ramPriceHidden">
+            <form method="post">
+                <input type="hidden" name="ramSize" id="ramSizeInput">
+                <input type="hidden" name="ramPrice" id="ramPriceInput">
                 <div class="mb-3">
-                    <label for="ramSize" class="form-label mt-3">RAM-Größe wählen (4 - <?php echo $maxRam; ?> GB)</label>
-                    <input type="range" class="form-range" id="ramSize" 
-                           min="4" max="<?php echo $maxRam; ?>" step="4" value="4"
+                    <label for="ramSlider" class="form-label mt-3">RAM-Größe wählen (4 - <?php echo $maxRam; ?> GB)</label>
+                    <input type="range" class="form-range" id="ramSlider" 
+                           name="ramSize"
+                           min="4" 
+                           max="<?php echo $maxRam; ?>" 
+                           step="4" 
+                           value="4"
                            oninput="updateRamInfo(this.value)">
                     <div class="mt-2">
                         <p>Gewählte Größe: <span id="selectedRam">4</span> GB</p>
-                        <p>Preis: <span id="ramPrice">3.20</span> €</p>
+                        <p>Preis: <span id="priceDisplay">3.20</span> €</p>
                     </div>
                 </div>
-                <a href="cpu.php" class="btn btn-secondary me-2">Zurück</a>
-                <button type="submit" class="btn btn-success mb-3">Weiter</button>
+                <a href="cpu.php" class="btn btn-secondary mb-2">Zurück</a>
+                <button type="submit" class="btn btn-success mb-2">Weiter</button>
             </form>
         </div>
-        <a href="index.html" class="btn btn-warning">Abbruch und zurück zur Startseite</a>
+        <a href="/index.html" class="btn btn-warning">Abbruch und zurück zur Startseite</a>
     </div>
 
     <script>
+        // Get max RAM from PHP and ensure it's a number
+        const maxRam = parseInt('<?php echo $maxRam; ?>');
+        
+        // Debug output
+        console.log('CPU data:', <?php echo json_encode($_SESSION['cpu'] ?? null); ?>);
+        console.log('Max RAM value:', maxRam);
+
         function updateRamInfo(value) {
-            const selectedRam = document.getElementById('selectedRam');
-            const ramPrice = document.getElementById('ramPrice');
+            value = parseInt(value);
             
-            // Update displayed RAM size
-            selectedRam.textContent = value;
+            // Ensure value is within bounds and multiple of 4
+            value = Math.min(Math.max(4, value), maxRam);
+            value = Math.floor(value / 4) * 4;
             
-            // Calculate and update price (0.80€ per GB)
+            // Update displays
+            document.getElementById('selectedRam').textContent = value;
+            document.getElementById('ramSizeInput').value = value;
+            document.getElementById('ramSlider').value = value;
+            
+            // Calculate and update price
             const price = (value * 0.80).toFixed(2);
-            ramPrice.textContent = price;
-            document.getElementById('ramPriceHidden').value = price;
+            document.getElementById('ramPriceInput').value = price;
+            document.getElementById('priceDisplay').textContent = price;
         }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('ramSlider');
+            
+            // Set the maximum value for the slider
+            slider.max = maxRam;
+            console.log('Initial slider max:', slider.max);
+            
+            // Set initial value and update display
+            slider.value = 4;
+            updateRamInfo(4);
+        });
     </script>
 
     <script src="/bootstrap5.3/js/bootstrap.bundle.min.js"></script>

@@ -134,6 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gehause'])) {
 
 
         </div>
-<button class="btn btn-warning">Abbruch und zurück zur Startseite</button>
+<a class="btn btn-warning" href="/index.html">Abbruch und zurück zur Startseite</a>
 </body>
 </html>

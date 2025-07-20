@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 // Database connection
 $servername = "127.0.0.1";
 $username = "root";
-$password = "3112";
+$password = "";
 $database = "webtech";
 
 $conn = new mysqli($servername, $username, $password, $database);
@@ -19,22 +19,34 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch AMD CPUs
-$amdQuery = "SELECT cpu_bz, cpu_preis, cpu_mram FROM cpu WHERE cpu_hs = 'AMD' ORDER BY cpu_preis";
-$amdResult = $conn->query($amdQuery);
+// Fetch AMD CPUs using prepared statement
+$amdQuery = "SELECT cpu_bz, cpu_preis, cpu_mram FROM cpu WHERE cpu_hs = ? ORDER BY cpu_preis";
+$amdStmt = $conn->prepare($amdQuery);
+$amdStmt->bind_param("s", $amdBrand);
+$amdBrand = "AMD";
+$amdStmt->execute();
+$amdResult = $amdStmt->get_result();
 
-// Fetch Intel CPUs
-$intelQuery = "SELECT cpu_bz, cpu_preis, cpu_mram FROM cpu WHERE cpu_hs = 'Intel' ORDER BY cpu_preis";
-$intelResult = $conn->query($intelQuery);
+// Fetch Intel CPUs using prepared statement
+$intelQuery = "SELECT cpu_bz, cpu_preis, cpu_mram FROM cpu WHERE cpu_hs = ? ORDER BY cpu_preis";
+$intelStmt = $conn->prepare($intelQuery);
+$intelStmt->bind_param("s", $intelBrand);
+$intelBrand = "Intel";
+$intelStmt->execute();
+$intelResult = $intelStmt->get_result();
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['cpu_model'])) {
+    if (isset($_POST['cpu_model'], $_POST['cpu_preis'], $_POST['cpu_mram'])) {
         $_SESSION['cpu'] = [
             'model' => $_POST['cpu_model'],
-            'preis' => $_POST['cpu_preis'],
-            'max_ram' => $_POST['cpu_mram']
+            'preis' => (float)$_POST['cpu_preis'],
+            'max_ram' => (int)$_POST['cpu_mram']
         ];
+        
+        // Debug output
+        error_log("Selected CPU: " . print_r($_SESSION['cpu'], true));
+        
         header('Location: ram.php');
         exit;
     }
@@ -126,8 +138,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?php echo htmlspecialchars($row['cpu_preis']); ?> €</td>
                     <td><?php echo htmlspecialchars($row['cpu_mram']); ?> GB</td>
                     <td>
-                        <input type="radio" name="cpu_model" value="<?php echo htmlspecialchars($row['cpu_bz']); ?>">
-                        <input type="hidden" name="cpu_preis" value="<?php echo htmlspecialchars($row['cpu_preis']); ?>">
+                        <form method="post">
+                            <input type="hidden" name="cpu_model" value="<?php echo htmlspecialchars($row['cpu_bz']); ?>">
+                            <input type="hidden" name="cpu_preis" value="<?php echo htmlspecialchars($row['cpu_preis']); ?>">
+                            <input type="hidden" name="cpu_mram" value="<?php echo htmlspecialchars($row['cpu_mram']); ?>">
+                            <button type="submit" class="btn btn-primary">Auswählen</button>
+                        </form>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -152,15 +168,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?php echo htmlspecialchars($row['cpu_preis']); ?> €</td>
                     <td><?php echo htmlspecialchars($row['cpu_mram']); ?> GB</td>
                     <td>
-                        <input type="radio" name="cpu_model" value="<?php echo htmlspecialchars($row['cpu_bz']); ?>">
-                        <input type="hidden" name="cpu_preis" value="<?php echo htmlspecialchars($row['cpu_preis']); ?>">
+                        <form method="post">
+                            <input type="hidden" name="cpu_model" value="<?php echo htmlspecialchars($row['cpu_bz']); ?>">
+                            <input type="hidden" name="cpu_preis" value="<?php echo htmlspecialchars($row['cpu_preis']); ?>">
+                            <input type="hidden" name="cpu_mram" value="<?php echo htmlspecialchars($row['cpu_mram']); ?>">
+                            <button type="submit" class="btn btn-primary">Auswählen</button>
+                        </form>
                     </td>
                 </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
     </div>
-    <a href="gehause.php" class="btn btn-secondary me-2">Zurück</a>
+    <a href="gehause.php" class="btn btn-secondary mb-2">Zurück</a>
     <button type="submit" class="btn btn-success mb-3" style="display: none;" id="buybtn">Weiter</button>
 </form>
 
@@ -176,10 +196,12 @@ function showCPUs(brand) {
 </script>
 
         </div>
-<button class="btn btn-warning">Abbruch und zurück zur Startseite</button>
+<a class="btn btn-warning" href="/index.html">Abbruch und zurück zur Startseite</a>
 </body>
 </html>
 
 <?php
+$amdStmt->close();
+$intelStmt->close();
 $conn->close();
 ?>
